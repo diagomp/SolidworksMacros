@@ -1,0 +1,87 @@
+Option Explicit
+
+
+Public Const sFolderPath As String = ""  'The path where stl files will be created automatically
+Public Const sUltimakerCuraPath As String = "C:\Program Files\UltiMaker Cura 5.3.1\UltiMaker-Cura.exe" 'Path to Ultimaker Cura Slicer
+
+
+Dim sArgs As String
+
+
+Sub main()
+    Dim swApp As SldWorks.SldWorks
+    Dim swModel As SldWorks.ModelDoc2
+    
+    Set swApp = Application.SldWorks
+    Set swModel = swApp.ActiveDoc
+    sArgs = ""
+    
+    
+    If Not swModel Is Nothing Then
+        Select Case swModel.GetType
+            Case swDocumentTypes_e.swDocASSEMBLY
+                Dim swSelMgr As SldWorks.SelectionMgr
+                Dim swComp As SldWorks.Component2
+                Dim iNumSel As Integer
+                
+                Set swSelMgr = swModel.SelectionManager
+                iNumSel = swSelMgr.GetSelectedObjectCount
+                
+                If iNumSel > 0 Then
+                    Dim it As Integer
+                    
+                    For it = 1 To iNumSel
+                        On Error Resume Next
+                        Set swComp = swSelMgr.GetSelectedObjectsComponent2(it)
+                        
+                        If Not swComp Is Nothing Then
+                            'Dim swCurrModel As SldWorks.ModelDoc2
+                            
+                            ' Set swCurrModel = swApp.OpenDoc6(swComp.GetPathName(), swComp.GetModelDoc2().GetType(), 0, "", 0, 0)
+                            swApp.ActivateDoc3 swComp.GetPathName(), True, 0, 0
+                            
+                            Dim swExtension As SldWorks.ModelDocExtension
+                            Dim bRet As Boolean
+                            Dim sSavePath As String
+                            Dim sFileName As String
+                            
+                            Set swExtension = swApp.ActiveDoc.Extension
+                            sFileName = swComp.GetPathName()
+                            
+                            sFileName = Right(sFileName, Len(sFileName) - InStrRev(sFileName, "\"))
+                            sFileName = Left(sFileName, InStrRev(sFileName, ".") - 1)
+                            sSavePath = sFolderPath & sFileName & ".STL"
+                            
+                            bRet = swExtension.SaveAs3(sSavePath, swSaveAsVersion_e.swSaveAsCurrentVersion, swSaveAsOptions_e.swSaveAsOptions_Silent, Nothing, Nothing, 0, 0)
+                            If bRet Then sArgs = sArgs & " """ & sSavePath & """"
+                        End If
+                        
+                    Next it
+                    
+                End If
+                
+                
+                
+                
+                
+                
+            Case swDocumentTypes_e.swDocPART
+            
+            Case Else
+                swApp.SendMsgToUser "Macro not compatible with this type of document."
+                Exit Sub
+        
+        End Select
+    
+    
+    End If
+    
+    
+    ' Opening Ultimaker Cura if there are any files available
+    If Not sArgs = "" Then
+        MsgBox "Opening Ultimaker Cura"
+        Shell sUltimakerCuraPath & sArgs, vbHide
+    End If
+    
+    
+End Sub
