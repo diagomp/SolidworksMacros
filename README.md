@@ -1,6 +1,7 @@
 # SolidworksMacros
 ## Some useful VBA Macros for SolidWorks
-In this repository I am collecting some useful macros I've developed to make my life esear as a Mechanical Designer using SolidWorks everyday.
+In this repository I am collecting some useful macros I've developed to make my life easyer as a Mechanical Designer using SolidWorks almost everyday.
+Because .swp files are binary, I've uploaded .txt files instead with all the code you need to run the macro.
 
 ## Macros
 - [Open In Ultimaker Cura](OpenInCura.txt). This macro allows you to automatically save any model in .STL format and open it in Ultimaker Cura.
