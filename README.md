@@ -4,7 +4,7 @@ In this repository I am collecting some useful macros I've developed to make my 
 Because .swp files are binary, I've uploaded .txt files instead with all the code you need to run the macro.
 
 ## Macros
-![Open in Cura icon](Open In Ultimaker Cura/cura_icon.bmp) [Open In Ultimaker Cura](Open In Ultimaker Cura/OpenInCura.txt). This macro allows you to automatically save any model in .STL format and open it in Ultimaker Cura.
+![Open in Cura icon](/Open In Ultimaker Cura/cura_icon.bmp) [Open In Ultimaker Cura](/Open In Ultimaker Cura/OpenInCura.txt). This macro allows you to automatically save any model in .STL format and open it in Ultimaker Cura.
 
 ## How to use this macros
 1. In SolidWorks, go to Tools > Macros > New.
