@@ -17,4 +17,4 @@ Because _.swp_ files are binary, I've aslo uploaded _.txt_ files with all the co
 6. You can now run the macro by going to Tools > Macros > Run, and selecting the macro wherever you save it.
 
 ## License
-This project is [MIT Licensed]{LICENSE).
+This project is [MIT Licensed](LICENSE) .
