@@ -1,5 +1,5 @@
 # SolidworksMacros
-## Some useful VBA Macros for SolidWorks
+### Some useful VBA Macros for SolidWorks
 In this repository I am collecting some useful macros I've developed to make my life easyer as a Mechanical Designer using SolidWorks almost everyday.
 Because _.swp_ files are binary, I've aslo uploaded _.txt_ files with all the code if you want to create your macro from scratch.
 
