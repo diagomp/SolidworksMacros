@@ -4,10 +4,10 @@ In this repository I am collecting some useful macros I've developed to make my 
 Because _.swp_ files are binary, I've aslo uploaded _.txt_ files with all the code if you want to create your macro from scratch.
 
 ## Macros
-| Icon | Name | Description |
+| Icon | Name | Description | Scope |
 | --- | --- | --- |
-| ![Ultimaker Cura logo](Open%20In%20Ultimaker%20Cura/cura_logo.bmp) | [Open In Ultimaker Cura](Open%20In%20Ultimaker%20Cura/OpenInCura.txt) | This macro allows you to automatically save any model in .STL format and open it in Ultimaker Cura. |
-| ![Tolerance table icon](ToleranceTableMacroFeature/icon-40x40-transparent.bmp) | [Tolerance table macro feature](ToleranceTableMacroFeature/ToleranceTableMacroFeature.txt) | This macro inserts in a drawing a tolerance table that updates automatically everytime you change the name of a property called _Tolerance_. |
+| ![Ultimaker Cura logo](Open%20In%20Ultimaker%20Cura/cura_logo.bmp) | [Open In Ultimaker Cura](Open%20In%20Ultimaker%20Cura/OpenInCura.txt) | This macro allows you to automatically save any model in .STL format and open it in Ultimaker Cura. | Part and Assembly documents |
+| ![Tolerance table icon](ToleranceTableMacroFeature/icon-40x40-transparent.bmp) | [Tolerance table macro feature](ToleranceTableMacroFeature/ToleranceTableMacroFeature.txt) | This macro inserts in a drawing a tolerance table that updates automatically everytime you change the name of a property called _Tolerance_. | Drawing documents | 
 
 ## How to use this macros
 1. In SolidWorks, go to Tools > Macros > New.
