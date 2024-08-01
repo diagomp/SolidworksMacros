@@ -1,0 +1,190 @@
+Option Explicit
+
+Public Const sTableTemplatePath As String = "...\ToleranceTableTemplate.sldtbt" ' Path to table template
+Public Const sPropertyName As String = "Tolerance"
+Public Const sIconsPath As String = "...\ToleranceTableMacroFeature\"	'Path to bmp images for the macro feature
+
+Public Const sMacroName As String = "ToleranceTableMacroFeature.swp"
+Public Const sModuleName As String = "ToleranceTableMacroFeature1"
+
+
+Sub main()
+    Dim swApp As SldWorks.SldWorks
+    Dim swModel As SldWorks.ModelDoc2
+    
+    Set swApp = Application.SldWorks
+    Set swModel = swApp.ActiveDoc
+    
+    If swModel.GetType = swDocumentTypes_e.swDocDRAWING Then
+        Dim swDrawDoc As SldWorks.DrawingDoc
+        Dim swTable As SldWorks.TableAnnotation
+        
+        'Creamos la tabla desde la plantilla
+        Set swDrawDoc = swModel
+        Set swTable = swDrawDoc.InsertTableAnnotation2(True, 0, 0, swBOMConfigurationAnchorType_e.swBOMConfigurationAnchor_TopLeft, sTableTemplatePath, 0, 0)
+
+        swTable.GetAnnotation().Select3 False, Nothing
+        
+        'Creamos la MacroFeature
+        Dim vMethods(8) As String
+        Dim sMacroPath As String
+        
+        sMacroPath = swApp.GetCurrentMacroPathFolder & "\" & sMacroName
+        
+        vMethods(0) = sMacroPath: vMethods(1) = sModuleName: vMethods(2) = "swmRebuild"
+        vMethods(3) = sMacroPath: vMethods(4) = sModuleName: vMethods(5) = "swmEditDefinition"
+        vMethods(6) = sMacroPath: vMethods(7) = sModuleName: vMethods(8) = "swmSecurity"
+        
+        
+
+        Dim sIcons(8) As String
+        
+        sIcons(0) = sIconsPath & "icon-20x20-transparent.bmp"
+        sIcons(1) = sIconsPath & "icon_suppressed-20x20-transparent.bmp"
+        sIcons(2) = sIconsPath & "icon-20x20-transparent.bmp"
+        
+        sIcons(3) = sIconsPath & "icon-32x32-transparent.bmp"
+        sIcons(4) = sIconsPath & "icon_suppressed-32x32-transparent.bmp"
+        sIcons(5) = sIconsPath & "icon-32x32-transparent.bmp"
+        
+        sIcons(6) = sIconsPath & "icon-40x40-transparent.bmp"
+        sIcons(7) = sIconsPath & "icon_suppressed-40x40-transparent.bmp"
+        sIcons(8) = sIconsPath & "icon-40x40-transparent.bmp"
+        
+        
+        Dim swFeat As SldWorks.Feature
+        
+        Set swFeat = swModel.FeatureManager.InsertMacroFeature3("ToleranceTableAnnotation", "", vMethods, Empty, Empty, Empty, Empty, Empty, Empty, sIcons, swMacroFeatureOptions_e.swMacroFeatureByDefault)
+        If swFeat Is Nothing Then
+            MsgBox "Cannot create macro feature."
+        End If
+        
+    End If
+    
+    
+
+End Sub
+
+Function UpdateTable(swTable As SldWorks.TableAnnotation, sClaseTol As String)
+    Select Case sClaseTol
+        Case "ISO 2768-f"
+            swTable.GetAnnotation.Visible = swAnnotationVisibilityState_e.swAnnotationVisible
+            swTable.Text(0, 0) = "ISO 2768-f" & vbCr & "TOLERANCE CLASS"
+            swTable.Text(3, 0) = "f"
+            swTable.Text(3, 1) = "fine"
+            swTable.Text(3, 2) = Chr(177) & "0,05"
+            swTable.Text(3, 3) = Chr(177) & "0,05"
+            swTable.Text(3, 4) = Chr(177) & "0,1"
+            swTable.Text(3, 5) = Chr(177) & "0,15"
+            swTable.Text(3, 6) = Chr(177) & "0,2"
+            swTable.Text(3, 7) = Chr(177) & "0,3"
+            swTable.Text(3, 8) = Chr(177) & "0,5"
+            swTable.Text(3, 9) = "-"
+        
+        Case "ISO 2768-m"
+            swTable.GetAnnotation.Visible = swAnnotationVisibilityState_e.swAnnotationVisible
+            swTable.Text(0, 0) = "ISO 2768-m" & vbCr & "TOLERANCE CLASS"
+            swTable.Text(3, 0) = "m"
+            swTable.Text(3, 1) = "medium"
+            swTable.Text(3, 2) = Chr(177) & "0,1"
+            swTable.Text(3, 3) = Chr(177) & "0,1"
+            swTable.Text(3, 4) = Chr(177) & "0,2"
+            swTable.Text(3, 5) = Chr(177) & "0,3"
+            swTable.Text(3, 6) = Chr(177) & "0,5"
+            swTable.Text(3, 7) = Chr(177) & "0,8"
+            swTable.Text(3, 8) = Chr(177) & "1,2"
+            swTable.Text(3, 9) = Chr(177) & "2"
+        
+        Case "ISO 2768-c"
+            swTable.GetAnnotation.Visible = swAnnotationVisibilityState_e.swAnnotationVisible
+            swTable.Text(0, 0) = "ISO 2768-c" & vbCr & "TOLERANCE CLASS"
+            swTable.Text(3, 0) = "c"
+            swTable.Text(3, 1) = "coarse"
+            swTable.Text(3, 2) = Chr(177) & "0,2"
+            swTable.Text(3, 3) = Chr(177) & "0,3"
+            swTable.Text(3, 4) = Chr(177) & "0,5"
+            swTable.Text(3, 5) = Chr(177) & "0,8"
+            swTable.Text(3, 6) = Chr(177) & "1,2"
+            swTable.Text(3, 7) = Chr(177) & "2"
+            swTable.Text(3, 8) = Chr(177) & "3"
+            swTable.Text(3, 9) = Chr(177) & "4"
+        
+        Case "ISO 2768-v"
+            swTable.GetAnnotation.Visible = swAnnotationVisibilityState_e.swAnnotationVisible
+            swTable.Text(0, 0) = "ISO 2768-v" & vbCr & "TOLERANCE CLASS"
+            swTable.Text(3, 0) = "v"
+            swTable.Text(3, 1) = "very coarse"
+            swTable.Text(3, 2) = "-"
+            swTable.Text(3, 3) = Chr(177) & "0,5"
+            swTable.Text(3, 4) = Chr(177) & "1"
+            swTable.Text(3, 5) = Chr(177) & "1,15"
+            swTable.Text(3, 6) = Chr(177) & "2,5"
+            swTable.Text(3, 7) = Chr(177) & "4"
+            swTable.Text(3, 8) = Chr(177) & "6"
+            swTable.Text(3, 9) = Chr(177) & "8"
+        
+        Case Else
+            swTable.GetAnnotation.Visible = swAnnotationVisibilityState_e.swAnnotationHidden
+            swTable.Text(0, 0) = "-" & vbCr & "TOLERANCE CLASS"
+            swTable.Text(3, 0) = "-"
+            swTable.Text(3, 1) = "-"
+            swTable.Text(3, 2) = "-"
+            swTable.Text(3, 3) = "-"
+            swTable.Text(3, 4) = "-"
+            swTable.Text(3, 5) = "-"
+            swTable.Text(3, 6) = "-"
+            swTable.Text(3, 7) = "-"
+            swTable.Text(3, 8) = "-"
+            swTable.Text(3, 9) = "-"
+    End Select
+        
+        
+    
+    
+    
+End Function
+
+
+
+Function swmRebuild(varApp As Variant, varDoc As Variant, varFeat As Variant) As Variant
+    Dim swModel As SldWorks.ModelDoc2
+    Dim swDrawDoc As SldWorks.DrawingDoc
+    Dim swFeat As SldWorks.Feature
+    Dim swMacroFeat As SldWorks.MacroFeatureData
+    
+    Set swModel = varDoc
+    Set swDrawDoc = swModel
+    
+    Set swFeat = varFeat
+    Set swMacroFeat = swFeat.GetDefinition()
+    
+    Dim vObjects As Variant
+    swMacroFeat.GetSelections3 vObjects, Empty, Empty, Empty, Empty
+    
+    If Not IsEmpty(vObjects) Then
+        Dim swTable As SldWorks.TableAnnotation
+        Set swTable = vObjects(0)
+        
+        Dim sToleranceProp As String
+        
+        
+        If Not swTable Is Nothing Then
+            UpdateTable swTable, swModel.CustomInfo(sPropertyName)
+        Else
+            MsgBox "Table has been lost." & vbCr & "Remove macro feature and insert it again."
+            swmRebuild = False
+            Exit Function
+        End If
+        
+        
+    End If
+    swmRebuild = True
+End Function
+
+Function swmEditDefinition(varApp As Variant, varDoc As Variant, varFeat As Variant) As Variant
+    swmEditDefinition = True
+End Function
+
+Function swmSecurity(varApp As Variant, varDoc As Variant, varFeat As Variant) As Variant
+    swmSecurity = swMacroFeatureSecurityOptions_e.swMacroFeatureSecurityByDefault
+End Function
