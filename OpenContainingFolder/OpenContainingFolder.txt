@@ -1,0 +1,71 @@
+Option Explicit
+
+
+Dim swApp As SldWorks.SldWorks
+
+Sub main()
+    Dim swModelDoc As SldWorks.ModelDoc2
+    
+    Set swApp = Application.SldWorks
+    Set swModelDoc = swApp.ActiveDoc
+    
+    If swModelDoc Is Nothing Then
+        MsgBox "This macro only works if you have a file already openned."
+        Exit Sub
+    Else
+        Select Case swModelDoc.GetType()
+        Case swDocumentTypes_e.swDocASSEMBLY
+            ' Active document is an assembly
+            Dim swSelMgr As SldWorks.SelectionMgr
+            Dim iNumSel As Integer
+            
+            Set swSelMgr = swModelDoc.SelectionManager
+            iNumSel = swSelMgr.GetSelectedObjectCount
+            
+            If iNumSel > 0 Then
+                ' User has selected some components in the assembly
+                Dim swComp As SldWorks.Component2
+                
+                ' Get the last selected component
+                Set swComp = swSelMgr.GetSelectedObjectsComponent2(iNumSel)
+                If Not swComp Is Nothing Then
+                    OpenFolder (swComp.GetPathName)
+                End If
+                
+            Else
+                ' If there is no selection, open folder of the assembly itself
+                OpenFolder (swModelDoc.GetPathName())
+            End If
+            
+            
+        
+        Case swDocumentTypes_e.swDocPART, swDocumentTypes_e.swDocASSEMBLY
+            OpenFolder (swModelDoc.GetPathName())
+        Case Else
+            MsgBox "File type not supported."
+            Exit Sub
+        End Select
+    
+    End If
+
+
+
+
+End Sub
+
+Function OpenFolder(sFullPath As String) As Boolean
+    'Dim sFileName As String, sFolderPath As String
+    Dim sCmd As String
+    
+    'sFileName = Right(sFullPath, Len(sFullPath) - InStrRev(sFullPath, "\"))
+    'sFolderPath = Left(sFullPath, Len(sFullPath) - Len(sFileName))
+    
+    ' Open explorer.exe with the file selected
+    sCmd = "cmd /c start explorer.exe /select, """ & sFullPath & """, vbNormalFocus"
+    Shell sCmd, vbNormalFocus
+    
+    
+    
+End Function
+
+
